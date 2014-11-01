@@ -37,7 +37,7 @@ class ThemeCreator extends Command {
 	 *
 	 * @var string
 	 */
-	protected $description = 'Creates a theme bootstrap structure.';
+	protected $description = 'Creates a theme boilerplate.';
 
 	/**
 	 * @var

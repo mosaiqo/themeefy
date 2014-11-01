@@ -1,6 +1,6 @@
 {
     "name": "mosaiqo/themeefy",
-    "description": "",
+    "description": "Mosaiqos themer package, creates boilerplate for themes",
     "authors": [
         {
             "name": "Boudy de Geer",

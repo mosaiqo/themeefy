@@ -8,10 +8,21 @@ use Illuminate\Contracts\Foundation\Application;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * Class ThemeCreator
+ *
+ * @package Mosaiqo\Themeefy\Console
+ */
 class ThemeCreator extends Command {
 
+	/**
+	 * @var array
+	 */
 	protected $fileStructure = [];
 
+	/**
+	 * @var array
+	 */
 	protected $stubFiles = [];
 
 	/**
@@ -28,7 +39,18 @@ class ThemeCreator extends Command {
 	 */
 	protected $description = 'Creates a theme bootstrap structure.';
 
+	/**
+	 * @var
+	 */
 	protected $themeName;
+	/**
+	 * @var
+	 */
+	protected $styleFrameworks;
+	/**
+	 * @var
+	 */
+	protected $scriptFrameworks;
 	/**
 	 * @var Filesystem
 	 */
@@ -66,16 +88,26 @@ class ThemeCreator extends Command {
 	public function fire()
 	{
 		$this->themeName = $this->argument( 'name' );
-		$frameworks = $this->parse($this->option('css'));
-		$libraries = $this->parse($this->option('js'));
+
+		$this->loadStyleFrameworks();
+
+		$this->loadScriptFrameworks();
+
+
+		$this->loadInput();
 
 		$this->fileStructure = $this->laravel['config']['themeefy::structure'];
-		$paths = str_replace(base_path(), "", $this->laravel['config']['themeefy::theme.themes_path']);
+		$paths = str_replace(base_path(), "", $this->laravel['config']['themeefy::theme.path']);
 
 		$this->createDirectoryStructure( $paths . DIRECTORY_SEPARATOR . $this->themeName );
 	}
 
 
+	/**
+	 * @param $string
+	 *
+	 * @return array
+	 */
 	private function parse($string)
 	{
 		$array = preg_split( '/ ?, ?/', $string, null, PREG_SPLIT_NO_EMPTY );
@@ -127,6 +159,13 @@ class ThemeCreator extends Command {
 				"Which task manager you´ll like to use? \nPossible values [grunt || gulp]",
 				"gulp"
 			],
+			[
+				'vendor',
+				null,
+				InputOption::VALUE_OPTIONAL,
+				"The vendor name",
+				""
+			],
 		];
 	}
 
@@ -140,6 +179,10 @@ class ThemeCreator extends Command {
 	}
 
 
+	/**
+	 * @param $structure
+	 * @param $mainPath
+	 */
 	private function createDirectory( $structure, $mainPath )
 	{
 		foreach ( $structure as $folder => $file )
@@ -152,13 +195,9 @@ class ThemeCreator extends Command {
 			}
 			elseif(is_string($file))
 			{
-				// TODO: Load Stub and process it
-				$input  = [
-					"vendor" => 'Boudy de Geer'
-				];
 
 				if ($this->templateExists($file, $mainPath))
-					$this->generator->make($input, $this->loadTemplate($file, $mainPath), $this->getDestination($mainPath, $file));
+					$this->generator->make($this->input, $this->loadTemplate($file, $mainPath), $this->getDestination($mainPath, $file));
 				else
 
 					$this->filesystem->put($mainPath . DIRECTORY_SEPARATOR . $file, "");
@@ -189,15 +228,19 @@ class ThemeCreator extends Command {
 	private function loadTemplate($file, $mainPath)
 	{
 		$path = $this->clearBasePath( $mainPath );
-		return __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . $file;
+		return $this->stubPath( $file, $path );
 	}
 
+	/**
+	 * @param $file
+	 * @param $mainPath
+	 *
+	 * @return bool
+	 */
 	private function templateExists($file, $mainPath)
 	{
 		$path = $this->clearBasePath( $mainPath );
-		return file_exists(
-			__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . $file
-		);
+		return file_exists($this->stubPath( $file, $path ));
 	}
 
 	/**
@@ -208,5 +251,41 @@ class ThemeCreator extends Command {
 	private function clearBasePath( $mainPath )
 	{
 		return str_replace( "/resources/themes/{$this->themeName}", '', $mainPath );
+	}
+
+	/**
+	 * @param $file
+	 * @param $path
+	 *
+	 * @return string
+	 */
+	private function stubPath( $file, $path )
+	{
+		return __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . $file;
+	}
+
+	/**
+	 *
+	 */
+	private function loadInput() {
+		$this->input = [
+			"vendor" => $this->option( 'vendor' )
+		];
+	}
+
+	/**
+	 *
+	 */
+	private function loadStyleFrameworks()
+	{
+		$this->styleFrameworks = $this->parse($this->option('css'));
+	}
+
+	/**
+	 *
+	 */
+	private function loadScriptFrameworks()
+	{
+		$this->scriptFrameworks = $this->parse($this->option('js'));
 	}
 }

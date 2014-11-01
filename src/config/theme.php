@@ -2,10 +2,10 @@
 
 return [
 
-	'themes_path' => base_path().'/resources/themes',
+	'path' => base_path().'/resources/themes',
 
-	'default_theme' => 'default',
+	'default' => 'default',
 
-	'themes_assets_path' => 'assets/themes',
+	'assets_path' => 'assets/themes',
 
 ];

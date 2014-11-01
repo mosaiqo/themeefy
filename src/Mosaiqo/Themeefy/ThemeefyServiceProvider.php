@@ -69,7 +69,7 @@ class ThemeefyServiceProvider extends ServiceProvider {
 	 */
 	public function registerThemeefy() {
 		$this->app->bindShared( 'Mosaiqo\Themeefy\Contracts\ThemeInterface', function ( $app ) {
-			$paths = $app['config']['themeefy::themes_path'];
+			$paths = $app['config']['themeefy::theme.path'];
 
 			return new Themeefy( $app['view.finder'], $paths );
 		} );

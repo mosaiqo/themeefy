@@ -207,6 +207,6 @@ class ThemeCreator extends Command {
 	 */
 	private function clearBasePath( $mainPath )
 	{
-		return str_replace( "/resources/themes/{$this->themeName}/views", '', $mainPath );
+		return str_replace( "/resources/themes/{$this->themeName}", '', $mainPath );
 	}
 }

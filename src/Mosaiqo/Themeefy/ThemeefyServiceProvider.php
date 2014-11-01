@@ -1,10 +1,13 @@
 <?php namespace Mosaiqo\Themeefy;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\Factory;
-use Mosaiqo\Themeefy\Resolver\Resolver;
 
 
+/**
+ * Class ThemeefyServiceProvider
+ *
+ * @package Mosaiqo\Themeefy
+ */
 class ThemeefyServiceProvider extends ServiceProvider {
 
 	/**
@@ -31,14 +34,9 @@ class ThemeefyServiceProvider extends ServiceProvider {
 	public function register()
 	{
 
-		$this->app->bindShared( 'view.finder', function ( $app ) {
-			$paths = $app['config']['view.paths'];
+		$this->registerViewFinder();
 
-			return new ThemeViewFinder( $app['files'], $paths );
-		} );
-		$this->app->bindShared( 'Mosaiqo\Themeefy\Contracts\ThemeInterface', function ( $app ) {
-			return new Themeefy(new Resolver(), $app['view.finder']);
-		} );
+		$this->registerThemeefy();
 
 	}
 
@@ -52,6 +50,25 @@ class ThemeefyServiceProvider extends ServiceProvider {
 		return [];
 	}
 
+	/**
+	 * Registers Package view finder to override Laravel's one.
+	 */
+	public function registerViewFinder() {
+		$this->app->bindShared( 'view.finder', function ( $app ) {
+			$paths = $app['config']['view.paths'];
+
+			return new ThemeViewFinder( $app['files'], $paths );
+		} );
+	}
+
+	/**
+	 * Registers Themeefy
+	 */
+	public function registerThemeefy() {
+		$this->app->bindShared( 'Mosaiqo\Themeefy\Contracts\ThemeInterface', function ( $app ) {
+			return new Themeefy( $app['view.finder'] );
+		} );
+	}
 
 
 }

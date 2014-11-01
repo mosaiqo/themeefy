@@ -23,7 +23,7 @@ function testNotification(status, pluginName, override) {
 	return options;
 }
 gulp.task('watch', function () {
-	gulp.watch(['tests/**/*.php', '**/*.php'], ['phpunit']);
+	gulp.watch(['tests/**/**/*.php', '**/**/*.php'], ['phpunit']);
 });
 
 gulp.task('develop', function () {

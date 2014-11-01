@@ -23,11 +23,20 @@ class Themeefy implements ThemeInterface{
 	private $view;
 
 	/**
-	 * @param ViewFinder $view
+	 * The path to the themes folder
+	 * @var array
 	 */
-	public function __construct(ViewFinder $view)
+	private $themes_path;
+
+
+	/**
+	 * @param ViewFinder $view
+	 * @param string      $themes_path
+	 */
+	public function __construct(ViewFinder $view, $themes_path = '')
 	{
 		$this->view = $view;
+		$this->themes_path = $themes_path;
 	}
 
 	/**
@@ -41,7 +50,7 @@ class Themeefy implements ThemeInterface{
 	{
 		$this->theme = $theme;
 
-		$this->view->addThemeLocation($theme);
+		$this->view->addThemeLocation( $this->compoundThemePath($theme) );
 
 	}
 
@@ -53,5 +62,18 @@ class Themeefy implements ThemeInterface{
 	public function get()
 	{
 		return $this->theme;
+	}
+
+
+	/**
+	 * Composes the theme path in order of the configs.
+	 *
+	 * @param $themeName
+	 *
+	 * @return string
+	 */
+	private function compoundThemePath( $themeName )
+	{
+		return $this->themes_path . DIRECTORY_SEPARATOR . $themeName . DIRECTORY_SEPARATOR . 'views';
 	}
 }

@@ -16,30 +16,15 @@ class ViewFinder extends FileViewFinder
 
 	/**
 	 * Prepends theme location to the view paths to first load the theme views.
-	 * @param $themeName
+	 *
+	 * @param $themePath
+	 *
 	 */
-	public function addThemeLocation($themeName)
+	public function addThemeLocation($themePath)
 	{
-
-		$qualifiedThemePath = $this->getThemePath( $themeName );
-
-		array_splice( $this->paths, 0, 0, $qualifiedThemePath );
-
+		array_splice( $this->paths, 0, 0, $themePath );
 	}
 
-	/**
-	 * Composes the theme path in order of the configs.
-	 *
-	 * @param $themeName
-	 *
-	 * @return string
-	 */
-	private function getThemePath( $themeName )
-	{
-		$path = Config::get( 'themeefy::themes_path' );
-
-		return $path . DIRECTORY_SEPARATOR . $themeName . DIRECTORY_SEPARATOR . 'views' ;
-	}
 
 
 }

@@ -39,6 +39,8 @@ class ThemeefyServiceProvider extends ServiceProvider {
 
 		$this->registerThemeefy();
 
+		$this->registerArtisanCommand();
+
 	}
 
 	/**
@@ -67,8 +69,23 @@ class ThemeefyServiceProvider extends ServiceProvider {
 	 */
 	public function registerThemeefy() {
 		$this->app->bindShared( 'Mosaiqo\Themeefy\Contracts\ThemeInterface', function ( $app ) {
-			return new Themeefy( $app['view.finder'] );
+			$paths = $app['config']['themeefy::themes_path'];
+
+			return new Themeefy( $app['view.finder'], $paths );
 		} );
+	}
+
+	/**
+	 * Register the Artisan command
+	 *
+	 * @return void
+	 */
+	public function registerArtisanCommand() {
+		$this->app->bindShared( 'themeefy.theme.creator', function ( $app ) {
+			return $app->make( 'Mosaiqo\Themeefy\Console\ThemeCreator' );
+		} );
+
+		$this->commands( 'themeefy.theme.creator' );
 	}
 
 

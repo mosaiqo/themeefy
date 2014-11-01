@@ -21,10 +21,10 @@ class ThemeefyTest extends Orchestra\Testbench\TestCase
 		$finder = $this->mockViewFinder();
 		$finder->shouldReceive('addThemeLocation')->once();
 
-		$this->theme = new Themeefy( $finder );
-		$this->theme->set('foo');
+		$this->theme = new Themeefy( $finder, 'path/to/themes' );
+		$this->theme->set( 'path/to/themes/foo');
 
-		$this->assertEquals($this->theme->get(), "foo");
+		$this->assertEquals($this->theme->get(), "path/to/themes/foo");
 	}
 
 

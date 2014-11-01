@@ -1,6 +1,8 @@
 <?php namespace Mosaiqo\Themeefy;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\Factory;
+use Mosaiqo\Themeefy\Resolver\Resolver;
 
 
 class ThemeefyServiceProvider extends ServiceProvider {
@@ -19,7 +21,7 @@ class ThemeefyServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package( 'mosaiqo/themeefy' );
+		$this->package( 'mosaiqo/themeefy', 'themeefy' );
 	}
 	/**
 	 * Register the service provider.
@@ -28,9 +30,16 @@ class ThemeefyServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->bindShared( 'themeefy', function ( $app ) {
-			return new Themeefy();
+
+		$this->app->bindShared( 'view.finder', function ( $app ) {
+			$paths = $app['config']['view.paths'];
+
+			return new ThemeViewFinder( $app['files'], $paths );
 		} );
+		$this->app->bindShared( 'Mosaiqo\Themeefy\Themeefy', function ( $app ) {
+			return new Themeefy(new Resolver(), $app['view.finder']);
+		} );
+
 	}
 
 	/**

@@ -36,7 +36,7 @@ class ThemeefyServiceProvider extends ServiceProvider {
 
 			return new ThemeViewFinder( $app['files'], $paths );
 		} );
-		$this->app->bindShared( 'Mosaiqo\Themeefy\Themeefy', function ( $app ) {
+		$this->app->bindShared( 'Mosaiqo\Themeefy\Contracts\ThemeInterface', function ( $app ) {
 			return new Themeefy(new Resolver(), $app['view.finder']);
 		} );
 

@@ -1,6 +1,7 @@
 <?php namespace Mosaiqo\Themeefy;
 
 use Illuminate\Support\ServiceProvider;
+use Mosaiqo\Themeefy\Finder\ViewFinder;
 
 
 /**
@@ -57,7 +58,7 @@ class ThemeefyServiceProvider extends ServiceProvider {
 		$this->app->bindShared( 'view.finder', function ( $app ) {
 			$paths = $app['config']['view.paths'];
 
-			return new ThemeViewFinder( $app['files'], $paths );
+			return new ViewFinder( $app['files'], $paths );
 		} );
 	}
 

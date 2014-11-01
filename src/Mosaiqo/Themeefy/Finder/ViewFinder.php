@@ -1,4 +1,4 @@
-<?php namespace Mosaiqo\Themeefy;
+<?php namespace Mosaiqo\Themeefy\Finder;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\FileViewFinder;
@@ -11,7 +11,7 @@ use Illuminate\View\FileViewFinder;
  *
  * @package Mosaiqo\Themeefy
  */
-class ThemeViewFinder extends FileViewFinder
+class ViewFinder extends FileViewFinder
 {
 
 	/**

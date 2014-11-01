@@ -1,9 +1,9 @@
 <?php namespace Mosaiqo\Themeefy;
 
-use Illuminate\View\Factory;
 
 use Mosaiqo\Themeefy\Contracts\ThemeInterface;
-use Mosaiqo\Themeefy\Resolver\Resolver;
+use Mosaiqo\Themeefy\Finder\ViewFinder;
+
 
 /**
  * Class Themeefy
@@ -16,15 +16,16 @@ class Themeefy implements ThemeInterface{
 	 */
 	private $theme;
 
+
 	/**
-	 * @var Factory
+	 * @var ViewFinder
 	 */
 	private $view;
 
 	/**
-	 * @param ThemeViewFinder $view
+	 * @param ViewFinder $view
 	 */
-	public function __construct(ThemeViewFinder $view)
+	public function __construct(ViewFinder $view)
 	{
 		$this->view = $view;
 	}

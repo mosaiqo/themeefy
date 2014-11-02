@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\FileViewFinder;
-
+use Mosaiqo\Themeefy\Contracts\ThemeViewFinderInterface;
 
 /**
  * Class ThemeViewFinder

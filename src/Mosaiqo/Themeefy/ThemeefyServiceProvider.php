@@ -64,6 +64,7 @@ class ThemeefyServiceProvider extends ServiceProvider {
 		} );
 	}
 
+
 	/**
 	 * Registers Themeefy
 	 */

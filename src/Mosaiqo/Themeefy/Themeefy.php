@@ -1,10 +1,7 @@
 <?php namespace Mosaiqo\Themeefy;
 
-
 use Mosaiqo\Themeefy\Contracts\ThemeInterface;
 use Mosaiqo\Themeefy\Contracts\ThemeViewFinderInterface;
-use Mosaiqo\Themeefy\Finder\ViewFinder;
-
 
 /**
  * Class Themeefy

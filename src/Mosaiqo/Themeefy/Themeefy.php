@@ -2,6 +2,7 @@
 
 
 use Mosaiqo\Themeefy\Contracts\ThemeInterface;
+use Mosaiqo\Themeefy\Contracts\ThemeViewFinderInterface;
 use Mosaiqo\Themeefy\Finder\ViewFinder;
 
 
@@ -11,16 +12,20 @@ use Mosaiqo\Themeefy\Finder\ViewFinder;
  * @package Mosaiqo\Themeefy
  */
 class Themeefy implements ThemeInterface{
+
 	/**
+	 * THe used theme
 	 * @var
 	 */
 	private $theme;
 
 
 	/**
-	 * @var ViewFinder
+	 * ThemeViewFinderInterface instance
+	 *
+	 * @var ThemeViewFinderInterface
 	 */
-	private $view;
+	private $viewFinder;
 
 	/**
 	 * The path to the themes folder
@@ -30,12 +35,12 @@ class Themeefy implements ThemeInterface{
 
 
 	/**
-	 * @param ViewFinder $view
+	 * @param ThemeViewFinderInterface $viewFinder
 	 * @param string      $themes_path
 	 */
-	public function __construct(ViewFinder $view, $themes_path = '')
+	public function __construct(ThemeViewFinderInterface $viewFinder, $themes_path = '')
 	{
-		$this->view = $view;
+		$this->viewFinder = $viewFinder;
 		$this->themes_path = $themes_path;
 	}
 
@@ -50,7 +55,7 @@ class Themeefy implements ThemeInterface{
 	{
 		$this->theme = $theme;
 
-		$this->view->addThemeLocation( $this->compoundThemePath($theme) );
+		$this->viewFinder->addThemeLocation( $this->compoundThemePath($theme) );
 
 	}
 

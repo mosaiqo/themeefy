@@ -11,8 +11,7 @@ use Illuminate\View\FileViewFinder;
  *
  * @package Mosaiqo\Themeefy
  */
-class ViewFinder extends FileViewFinder
-{
+class ViewFinder extends FileViewFinder implements ThemeViewFinderInterface {
 
 	/**
 	 * Prepends theme location to the view paths to first load the theme views.

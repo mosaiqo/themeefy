@@ -30,7 +30,7 @@ class ViewFinderTest extends Orchestra\Testbench\TestCase {
 	/**
 	 * @test
 	 */
-	public function itAllwaysAddsThemeLocationOnFirstPlace()
+	public function itAlwaysAddsThemeLocationOnFirstPlace()
 	{
 		$this->viewFinder = new ViewFinder( $this->mockFileSystem(), ['default/path', 'another/path'] );
 
